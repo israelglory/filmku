@@ -1,29 +1,23 @@
 package com.kxsplash.filmku
 
 import android.os.Bundle
-import android.widget.Toast
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,68 +54,12 @@ fun MyApp() {
 }
 
 @Composable
-fun ImageCard(
-    painter: Painter,
-    contentDescription: String,
-    title: String,
-    modifier: Modifier = Modifier
-){
-    val mContext = LocalContext.current
-    Box(modifier = Modifier
-        .fillMaxWidth(0.5f)
-        .clickable {
-            print("Glory")
-            Toast
-                .makeText(mContext, "Hello, Splash", Toast.LENGTH_LONG)
-                .show()
-        }
-        .padding(16.dp)){
-        Card (
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(12.dp),
-            elevation = 5.dp,
-        ) {
-            Box(
-                modifier = Modifier.height(200.dp),
-            ) {
-                Image(
-                    painter = painter,
-                    contentDescription = contentDescription,
-                    contentScale = ContentScale.Crop,
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(
-                                    Color.Transparent,
-                                    Color.Black
-                                ),
-                                startY = 300f
-                            ),
-                        ),
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(12.dp),
-                    contentAlignment = Alignment.BottomStart,
-                ) {
-                    Text(text = title, style = TextStyle(color = Color.White, fontSize = 16.sp))
-                }
-
-            }
-        }
-    }
-}
-
-@Composable
 fun NowShowingCard(
     painter: Painter,
     contentDescription: String,
     title: String,
 ){
+
     Box (
         modifier = Modifier.padding(end = 16.dp)
     ){
@@ -131,7 +69,7 @@ fun NowShowingCard(
                 elevation = 10.dp,
                 modifier = Modifier.height(212.dp)
             ) {
-                Image(painter = painter, contentDescription = contentDescription, )
+                Image(painter = painter, contentDescription = contentDescription)
             }
             Column (
                 modifier = Modifier.padding(top = 12.dp)
@@ -160,10 +98,9 @@ fun PopularCard(painter: Painter,
                 .height(120.dp)
                 .padding(end = 10.dp)
         ) {
-            Image(painter = painter, contentDescription = contentDescription, )
+            Image(painter = painter, contentDescription = contentDescription)
         }
-        Column (
-        ){
+        Column {
             Text(text = title, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             Spacer(modifier = Modifier.height(4.dp))
             Row(
@@ -176,12 +113,12 @@ fun PopularCard(painter: Painter,
                 Text(text = "6.4/10 IMDb", color = Color(0xFF9C9C9C), fontSize = 12.sp)
             }
             Spacer(modifier = Modifier.height(4.dp))
-            Row() {
-                MovieType("HORROR",)
+            Row{
+                MovieType("HORROR")
                 Spacer(modifier = Modifier.size(8.dp))
-                MovieType("MYSTERY",)
+                MovieType("MYSTERY")
                 Spacer(modifier = Modifier.size(8.dp))
-                MovieType("THRILLER",)
+                MovieType("THRILLER")
 
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -198,7 +135,7 @@ fun MyAppBar() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
-            .background(Color.White)
+            //.background(Color.White)
             .fillMaxWidth()
             .height(56.dp)
             .padding(start = 10.dp, end = 10.dp)
@@ -212,7 +149,7 @@ fun MyAppBar() {
                 .width(30.dp)
                 .height(30.dp)
         )
-        Text(text = "FilmKu", fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+        Text(text = "FilmKu", fontSize = 20.sp,  fontWeight = FontWeight.Bold)
         Image(
             painter = notificationIcon,
             contentDescription = "Notification",
@@ -226,16 +163,15 @@ fun MyAppBar() {
 
 @Composable
 fun MyBody() {
-    val film1 = painterResource(id = R.drawable.film1)
-    val scrollState = rememberScrollState()
-    Column(
-    ) {
-        Text(text = "Now Showing", fontSize = 16.sp, color = Color.Black, fontWeight = FontWeight.Bold, modifier = Modifier
+    //val film1 = painterResource(id = R.drawable.film1)
+    //val scrollState = rememberScrollState()
+    Column {
+        Text(text = "Now Showing", fontSize = 16.sp,  fontWeight = FontWeight.Bold, modifier = Modifier
             .padding(start = 10.dp, end = 10.dp))
         Spacer(modifier = Modifier.height(10.dp))
         HorizontalScrollScreen()
         Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Popular", fontSize = 16.sp, color = Color.Black, fontWeight = FontWeight.Bold, modifier = Modifier
+        Text(text = "Popular", fontSize = 16.sp,  fontWeight = FontWeight.Bold, modifier = Modifier
             .padding(start = 10.dp, end = 10.dp))
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -259,8 +195,40 @@ fun MovieType(type: String) {
 @Composable
 fun HorizontalScrollScreen() {
     val film1 = painterResource(id = R.drawable.film1)
+    val movies = listOf<MovieClass>(
+        MovieClass(
+            painter = painterResource(id = R.drawable.film1),
+            contentDescription = "",
+            movieTitle = "Venom Let There Be Carnage",
+        ),
+        MovieClass(
+            painter = painterResource(id = R.drawable.film1),
+            contentDescription = "",
+            movieTitle = "Venom Let There Be Carnage",
+        ),
+        MovieClass(
+            painter = painterResource(id = R.drawable.film1),
+            contentDescription = "",
+            movieTitle = "Venom Let There Be Carnage",
+        ),
+        MovieClass(
+            painter = painterResource(id = R.drawable.film1),
+            contentDescription = "",
+            movieTitle = "Venom Let There Be Carnage",
+        ),
+        MovieClass(
+            painter = painterResource(id = R.drawable.film1),
+            contentDescription = "",
+            movieTitle = "Venom Let There Be Carnage",
+        ),
+        MovieClass(
+            painter = painterResource(id = R.drawable.film1),
+            contentDescription = "",
+            movieTitle = "Venom Let There Be Carnage",
+        ),
+    )
     // a wrapper to fill the entire screen
-    Box() {
+    Box {
         // BowWithConstraints will provide the maxWidth used below
         BoxWithConstraints(modifier = Modifier
             .fillMaxWidth()
@@ -271,6 +239,7 @@ fun HorizontalScrollScreen() {
                 state = rememberLazyListState()
             ) {
                 items(10) {
+
                     NowShowingCard(painter = film1, contentDescription = "", title = "Spiderman: No Way Home")
                 }
             }
@@ -306,20 +275,8 @@ fun VerticalScrollScreen() {
 
 //@Preview(showBackground = true, widthDp = 270, heightDp = 560)
 @Composable
-fun DefaultPreview() {
-    val painter = painterResource(id = R.drawable.apple_watch)
-    val description = "Apple watch"
-    var title = "Apple Watch"
-    Column(
-        ///modifier = Modifier.padding(10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        NowShowingCard(contentDescription = description, painter = painter, title = title)
-        // ImageCard(painter = painter, contentDescription = description, title = title)
-        NowShowingCard(contentDescription = description, painter = painter, title = title)
+fun MovieDescriptionPreview() {
 
-    }
 }
 
 @Preview(showBackground = true, widthDp = 300, heightDp = 660)
@@ -328,3 +285,6 @@ fun MyAppPreview() {
     MyApp()
 }
 
+class MovieClass(movieTitle: String, painter:Painter, contentDescription: String){
+
+}
